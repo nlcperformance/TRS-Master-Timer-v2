@@ -16,20 +16,24 @@
                 extend: {
                     colors: {
                         'brand-orange': '#ff5500',
-                        'brand-orange-glow': 'rgba(255, 85, 0, 0.4)',
-                        'tactical-black': '#050505',
-                        'tactical-gray': '#111111',
-                        'premium-dark': '#0a0a0a',
+                        'brand-orange-light': '#ff7700',
                         'accent-red': '#EF4444',
-                        'eq-blue': '#00d2ff',
-                        'eq-purple': '#8a2be2',
-                        'eq-pink': '#ff007f',
-                        'eq-orange': '#ff7700',
+                        'eq-1': '#ef4444', // Red
+                        'eq-2': '#f97316', // Orange
+                        'eq-3': '#eab308', // Yellow
+                        'eq-4': '#84cc16', // Lime
+                        'eq-5': '#22c55e', // Green
+                        'eq-6': '#10b981', // Emerald
+                        'eq-7': '#06b6d4', // Cyan
+                        'eq-8': '#3b82f6', // Blue
+                        'eq-9': '#6366f1', // Indigo
+                        'eq-10': '#a855f7', // Purple
+                        'eq-11': '#d946ef', // Fuchsia
+                        'eq-12': '#f43f5e', // Rose
                     },
                     boxShadow: {
-                        'neon-orange': '0 0 20px rgba(255, 85, 0, 0.4), 0 0 40px rgba(255, 85, 0, 0.1)',
-                        'neon-white': '0 0 15px rgba(255, 255, 255, 0.2)',
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        'float': '0 10px 30px rgba(0, 0, 0, 0.08)',
                     }
                 }
             }
@@ -39,8 +43,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700;800&family=Oswald:wght@300;400;600;700&display=swap');
         
         body {
-            background-color: #000000;
-            color: #e5e5e5;
+            background-color: #f9fafb; /* Light mode background */
+            color: #111827; /* Dark text */
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             overflow-y: auto;
@@ -52,13 +56,6 @@
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .font-header { font-family: 'Oswald', sans-serif; }
         
-        /* Custom Animations */
-        @keyframes pulse-orange {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(255, 85, 0, 0); }
-        }
-        .animate-pulse-orange { animation: pulse-orange 2s infinite; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -67,26 +64,24 @@
         .animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
         .animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        /* Sleek Button Styling */
+        /* Sleek Button Styling for Light Mode */
         .btn-minimal {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #a0a0a0;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #6b7280;
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         .btn-minimal:active { transform: scale(0.97); }
         .btn-minimal.selected {
-            background: #ffffff;
-            border-color: #ffffff;
-            color: #000000;
+            background: #111827;
+            border-color: #111827;
+            color: #ffffff;
             font-weight: 600;
         }
-
-        .text-glow-orange { text-shadow: 0 0 20px rgba(255,85,0,0.6); }
-        .text-glow-white { text-shadow: 0 0 20px rgba(255,255,255,0.4); }
 
         /* SVG Circular Timer */
         .timer-ring {
@@ -96,8 +91,8 @@
         }
 
         ::-webkit-scrollbar { width: 4px; display: none;}
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -230,8 +225,8 @@
         };
 
         const Footer = () => (
-            <div className="w-full text-center pb-6 pt-4 mt-auto border-t border-white/5">
-                <span className="text-[10px] font-mono tracking-[0.4em] text-gray-500 uppercase opacity-60">
+            <div className="w-full text-center pb-6 pt-4 mt-auto border-t border-gray-200">
+                <span className="text-[10px] font-mono tracking-[0.4em] text-gray-400 uppercase font-semibold">
                     Adapt. Recover. Master.
                 </span>
             </div>
@@ -239,36 +234,34 @@
 
         // --- GLOBAL TASK TRACKER EQUALIZER ---
         const TaskEqualizer = ({ masterPlan, currentBlockId }) => {
-            const eqColors = ['bg-eq-blue', 'bg-eq-purple', 'bg-eq-pink', 'bg-eq-orange'];
+            const eqColors = ['bg-brand-orange', 'bg-blue-500', 'bg-purple-500', 'bg-emerald-500', 'bg-rose-500'];
 
             return (
-                <div className="w-full max-w-xs mx-auto flex items-end justify-between gap-2 h-10 mb-2">
+                <div className="w-full max-w-sm mx-auto flex items-end justify-between gap-2 h-10 mb-2 px-4">
                     {masterPlan.map((block, i) => {
                         let heightClass = 'h-1';
-                        let bgClass = 'bg-gray-800';
+                        let bgClass = 'bg-gray-200';
                         let animClass = '';
-                        let shadowClass = '';
 
                         if (block.skipped) {
-                            heightClass = 'h-1 opacity-30';
-                            bgClass = 'bg-gray-800';
+                            heightClass = 'h-1 opacity-40';
+                            bgClass = 'bg-gray-300';
                         } else if (block.completed) {
                             heightClass = 'h-full';
-                            bgClass = eqColors[i];
-                            shadowClass = `shadow-[0_0_10px_${eqColors[i]}]`;
+                            bgClass = eqColors[i % eqColors.length];
                         } else if (block.id === currentBlockId) {
                             heightClass = 'h-1/2';
-                            bgClass = eqColors[i];
+                            bgClass = eqColors[i % eqColors.length];
                             animClass = 'animate-pulse';
                         } else {
                             heightClass = 'h-2';
-                            bgClass = 'bg-gray-700';
+                            bgClass = 'bg-gray-300';
                         }
 
                         return (
                             <div key={block.id} className="flex-1 flex flex-col justify-end items-center h-full relative group">
-                                <div className={`w-full rounded-sm transition-all duration-700 ${heightClass} ${bgClass} ${animClass} ${shadowClass}`}></div>
-                                <span className="absolute -bottom-5 text-[8px] font-mono text-gray-500 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                <div className={`w-full rounded-sm transition-all duration-700 ${heightClass} ${bgClass} ${animClass}`}></div>
+                                <span className="absolute -bottom-6 text-[9px] font-mono text-gray-500 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                                     {block.name}
                                 </span>
                             </div>
@@ -278,15 +271,39 @@
             );
         };
 
-        // --- SETUP WIZARD (GATEWAY -> ENGINE) ---
+        // --- ENGINE ROUNDS CHECKPOINT ---
+        const EngineCheckpoints = ({ currentRound, totalRounds }) => {
+            const allColors = [
+                'bg-eq-1', 'bg-eq-2', 'bg-eq-3', 'bg-eq-4', 'bg-eq-5', 'bg-eq-6', 
+                'bg-eq-7', 'bg-eq-8', 'bg-eq-9', 'bg-eq-10', 'bg-eq-11', 'bg-eq-12'
+            ];
+            
+            return (
+                <div className="flex flex-wrap justify-center gap-1.5 mt-4 max-w-xs mx-auto">
+                    {Array.from({ length: totalRounds }).map((_, i) => {
+                        const isCompleted = i < currentRound;
+                        const colorClass = allColors[i % allColors.length];
+                        return (
+                            <div 
+                                key={i} 
+                                className={`w-3 h-3 rounded-full transition-all duration-500 ${isCompleted ? `${colorClass} scale-110 shadow-sm` : 'bg-gray-200 scale-100'}`}
+                            ></div>
+                        );
+                    })}
+                </div>
+            );
+        };
+
+        // --- SETUP WIZARD ---
         const SetupWizard = ({ onLaunch }) => {
             const [step, setStep] = useState(1);
             
             // ISO Configs
             const [isoConfigs, setIsoConfigs] = useState({
                 splitSquat: { duration: 2, weighted: false, skipped: false },
-                pressUp: { duration: 2, weighted: false, skipped: false },
-                ankleHold: { duration: 2, weighted: false, skipped: false },
+                pressUp: { duration: 1, weighted: false, skipped: false },
+                ankleHoldL: { duration: 2, weighted: false, skipped: false },
+                ankleHoldR: { duration: 2, weighted: false, skipped: false },
             });
 
             const updateIso = (key, field, val) => {
@@ -349,7 +366,8 @@
                 const masterPlan = [
                     { id: 'iso_1', type: 'ISO', name: 'Split Squat', duration: isoConfigs.splitSquat.duration, weighted: isoConfigs.splitSquat.weighted, skipped: isoConfigs.splitSquat.skipped, completed: false },
                     { id: 'iso_2', type: 'ISO', name: 'Press Up', duration: isoConfigs.pressUp.duration, weighted: false, skipped: isoConfigs.pressUp.skipped, completed: false },
-                    { id: 'iso_3', type: 'ISO', name: 'Ankle Hold', duration: isoConfigs.ankleHold.duration, weighted: isoConfigs.ankleHold.weighted, skipped: isoConfigs.ankleHold.skipped, completed: false },
+                    { id: 'iso_3', type: 'ISO', name: 'Ankle (L)', duration: isoConfigs.ankleHoldL.duration, weighted: isoConfigs.ankleHoldL.weighted, skipped: isoConfigs.ankleHoldL.skipped, completed: false },
+                    { id: 'iso_4', type: 'ISO', name: 'Ankle (R)', duration: isoConfigs.ankleHoldR.duration, weighted: isoConfigs.ankleHoldR.weighted, skipped: isoConfigs.ankleHoldR.skipped, completed: false },
                     { 
                         id: 'engine_1',
                         type: 'ENGINE', 
@@ -369,28 +387,28 @@
 
             const renderIsoStep = (title, key, allowWeighted, stepNum) => {
                 const config = isoConfigs[key];
-                const times = allowWeighted ? [1, 2, 3, 4, 5] : [2, 3, 4, 5];
+                const times = allowWeighted ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5];
                 const warning = config.duration === 1 && allowWeighted && !config.weighted && !config.skipped;
                 
                 return (
                     <div className="animate-fade-in flex flex-col h-full">
                         <div className="text-center mb-6">
-                            <h2 className="text-gray-500 font-mono text-[10px] tracking-[0.2em] uppercase mb-1">Gateway Block {stepNum}/3</h2>
-                            <h1 className="text-3xl font-header font-bold text-white uppercase">{title}</h1>
+                            <h2 className="text-gray-400 font-mono text-[10px] tracking-[0.2em] uppercase mb-1 font-semibold">Gateway Block {stepNum}/4</h2>
+                            <h1 className="text-3xl font-header font-bold text-gray-900 uppercase">{title}</h1>
                         </div>
 
-                        <div className="glass-panel p-4 mb-6 bg-white/5 border border-white/10 rounded-2xl">
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-xs font-bold text-gray-300 uppercase tracking-widest">Execute Block?</span>
+                        <div className="bg-white p-5 mb-6 border border-gray-200 rounded-2xl shadow-soft">
+                            <div className="flex items-center justify-between mb-5">
+                                <span className="text-xs font-bold text-gray-600 uppercase tracking-widest">Execute Block?</span>
                                 <div className="flex gap-2">
-                                    <button onClick={() => updateIso(key, 'skipped', false)} className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${!config.skipped ? 'bg-brand-orange text-white' : 'bg-gray-800 text-gray-500'}`}>Yes</button>
-                                    <button onClick={() => updateIso(key, 'skipped', true)} className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${config.skipped ? 'bg-gray-700 text-white' : 'bg-gray-900 text-gray-500'}`}>Skip</button>
+                                    <button onClick={() => updateIso(key, 'skipped', false)} className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${!config.skipped ? 'bg-brand-orange text-white shadow-sm' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}>Yes</button>
+                                    <button onClick={() => updateIso(key, 'skipped', true)} className={`px-4 py-2 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${config.skipped ? 'bg-gray-800 text-white shadow-sm' : 'bg-gray-100 text-gray-400 hover:bg-gray-200'}`}>Skip</button>
                                 </div>
                             </div>
 
                             {!config.skipped && (
-                                <div className="animate-slide-up">
-                                    <label className="text-[10px] font-semibold text-gray-400 uppercase mb-3 block tracking-widest mt-4">Target Duration</label>
+                                <div className="animate-slide-up border-t border-gray-100 pt-4">
+                                    <label className="text-[10px] font-semibold text-gray-500 uppercase mb-3 block tracking-widest">Target Duration</label>
                                     <div className="flex gap-2 mb-4">
                                         {times.map(m => (
                                             <button key={m} onClick={() => { updateIso(key, 'duration', m); if(m!==1 && allowWeighted) updateIso(key, 'weighted', false); }} className={`btn-minimal flex-1 py-3 text-sm ${config.duration === m ? 'selected' : ''}`}>{m}M</button>
@@ -398,14 +416,14 @@
                                     </div>
 
                                     {allowWeighted && config.duration === 1 && (
-                                        <div className="mt-4 p-4 border border-brand-orange/30 rounded-xl bg-orange-900/10">
+                                        <div className="mt-4 p-4 border border-brand-orange/30 rounded-xl bg-orange-50">
                                             <div className="flex items-center justify-between cursor-pointer" onClick={() => updateIso(key, 'weighted', !config.weighted)}>
                                                 <div>
-                                                    <span className="text-xs font-semibold text-white uppercase tracking-widest block">Add Weight</span>
-                                                    <span className="text-[10px] text-gray-400 font-mono">Mandatory for 1 min duration</span>
+                                                    <span className="text-xs font-bold text-gray-900 uppercase tracking-widest block">Add Weight</span>
+                                                    <span className="text-[10px] text-gray-500 font-mono">Mandatory for 1 min duration</span>
                                                 </div>
-                                                <div className={`w-12 h-6 rounded-full relative transition-all duration-300 ${config.weighted ? 'bg-brand-orange shadow-neon-orange' : 'bg-gray-800'}`}>
-                                                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${config.weighted ? 'left-7' : 'left-1 shadow-sm'}`}></div>
+                                                <div className={`w-12 h-6 rounded-full relative transition-all duration-300 shadow-inner ${config.weighted ? 'bg-brand-orange' : 'bg-gray-300'}`}>
+                                                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 shadow ${config.weighted ? 'left-7' : 'left-1'}`}></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -414,11 +432,11 @@
                             )}
                         </div>
 
-                        <div className="mt-auto pt-4 border-t border-white/5">
+                        <div className="mt-auto pt-4">
                             <button 
                                 disabled={warning}
                                 onClick={handleNext}
-                                className="w-full py-4 bg-white text-black font-bold text-xs uppercase tracking-widest rounded-xl hover:scale-[1.02] disabled:opacity-30 disabled:scale-100 transition-all duration-300 shadow-lg"
+                                className="w-full py-4 bg-gray-900 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-gray-800 disabled:opacity-30 transition-all duration-300 shadow-float"
                             >
                                 Confirm & Proceed
                             </button>
@@ -430,13 +448,13 @@
             const renderEngineStep = () => (
                 <div className="animate-fade-in flex flex-col h-full">
                     <div className="text-center mb-6">
-                        <h2 className="text-gray-500 font-mono text-[10px] tracking-[0.2em] uppercase mb-1">Final Block 4/4</h2>
-                        <h1 className="text-3xl font-header font-bold text-brand-orange text-glow-orange uppercase">Select Engine</h1>
+                        <h2 className="text-gray-400 font-mono text-[10px] tracking-[0.2em] uppercase mb-1 font-semibold">Final Block</h2>
+                        <h1 className="text-3xl font-header font-bold text-brand-orange uppercase">Select Engine</h1>
                     </div>
 
-                    <div className="flex gap-2 border-b border-white/10 overflow-x-auto pb-2 scrollbar-hide mb-6">
+                    <div className="flex gap-2 border-b border-gray-200 overflow-x-auto pb-2 scrollbar-hide mb-6 px-1">
                         {['Q&D', 'AXE', 'DFW'].map(tab => (
-                            <button key={tab} onClick={() => { setEngineType(tab); setQdRolled(false); setDfwRolled(false); }} className={`text-xs md:text-sm font-header uppercase tracking-widest whitespace-nowrap flex-1 text-center py-2 transition-all ${engineType === tab ? 'text-white border-b-2 border-brand-orange' : 'text-gray-600 hover:text-gray-400'}`}>
+                            <button key={tab} onClick={() => { setEngineType(tab); setQdRolled(false); setDfwRolled(false); }} className={`text-xs md:text-sm font-header uppercase tracking-widest whitespace-nowrap flex-1 text-center py-2 transition-all ${engineType === tab ? 'text-gray-900 border-b-2 border-brand-orange' : 'text-gray-400 hover:text-gray-600'}`}>
                                 {tab}
                             </button>
                         ))}
@@ -445,14 +463,14 @@
                     {engineType === 'Q&D' && (
                         <div className="space-y-6 animate-fade-in flex-1">
                             <div>
-                                <label className="text-[10px] font-semibold text-gray-400 uppercase mb-3 block tracking-widest">Movement Pattern</label>
+                                <label className="text-[10px] font-semibold text-gray-500 uppercase mb-3 block tracking-widest">Movement Pattern</label>
                                 <div className="flex gap-2">
                                     <button onClick={() => setQdExercise('A')} className={`btn-minimal flex-1 py-4 text-xs ${qdExercise === 'A' ? 'selected' : ''}`}>Swings + Pushups</button>
                                     <button onClick={() => setQdExercise('B')} className={`btn-minimal flex-1 py-4 text-xs ${qdExercise === 'B' ? 'selected' : ''}`}>Snatch (L/R)</button>
                                 </div>
                             </div>
                             <div>
-                                <label className="text-[10px] font-semibold text-gray-400 uppercase mb-3 block tracking-widest">Protocol</label>
+                                <label className="text-[10px] font-semibold text-gray-500 uppercase mb-3 block tracking-widest">Protocol</label>
                                 <div className="flex gap-2">
                                     <button onClick={() => setQdProtocol('5/4')} className={`btn-minimal flex-1 py-3 ${qdProtocol === '5/4' ? 'selected' : ''}`}>
                                         <span className="text-sm font-header block">5/4</span><span className="text-[10px] opacity-70">Power</span>
@@ -465,14 +483,14 @@
                             
                             <div className="mt-4">
                                 {!qdRolled ? (
-                                    <button onClick={rollQd} className="w-full py-4 bg-gray-800 text-white font-semibold text-xs uppercase tracking-widest rounded-xl hover:bg-gray-700 transition-all shadow-lg border border-white/10">
+                                    <button onClick={rollQd} className="w-full py-4 bg-gray-100 text-gray-900 font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-gray-200 transition-all border border-gray-300 shadow-sm">
                                         Roll Series Dice
                                     </button>
                                 ) : (
-                                    <div className="animate-scale-in p-4 bg-orange-900/20 border border-brand-orange/50 rounded-xl text-center shadow-neon-orange">
-                                        <div className="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">Target Acquired</div>
-                                        <div className="text-2xl font-header font-bold text-white">{qdSeriesTarget} <span className="text-brand-orange text-lg">SERIES</span></div>
-                                        <div className="text-xs text-gray-400 mt-1">{qdSeriesTarget * 20} Total Reps</div>
+                                    <div className="animate-scale-in p-4 bg-orange-50 border border-brand-orange/30 rounded-xl text-center shadow-sm">
+                                        <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-1 font-semibold">Target Acquired</div>
+                                        <div className="text-2xl font-header font-bold text-gray-900">{qdSeriesTarget} <span className="text-brand-orange text-lg">SERIES</span></div>
+                                        <div className="text-xs text-gray-600 mt-1 font-medium">{qdSeriesTarget * 20} Total Reps</div>
                                     </div>
                                 )}
                             </div>
@@ -481,7 +499,7 @@
 
                     {engineType === 'AXE' && (
                         <div className="space-y-6 animate-fade-in flex-1">
-                            <label className="text-[10px] font-semibold text-gray-400 uppercase mb-3 block tracking-widest">EMOM Duration</label>
+                            <label className="text-[10px] font-semibold text-gray-500 uppercase mb-3 block tracking-widest">EMOM Duration</label>
                             <div className="flex gap-2">
                                 {[10, 15, 20, 30].map(m => (
                                     <button key={m} onClick={() => setAxeMins(m)} className={`btn-minimal flex-1 py-4 text-sm ${axeMins === m ? 'selected' : ''}`}>{m}M</button>
@@ -493,7 +511,7 @@
                     {engineType === 'DFW' && (
                         <div className="space-y-6 animate-fade-in flex-1">
                             <div>
-                                <label className="text-[10px] font-semibold text-gray-400 uppercase mb-3 block tracking-widest">Time Domain</label>
+                                <label className="text-[10px] font-semibold text-gray-500 uppercase mb-3 block tracking-widest">Time Domain</label>
                                 <div className="flex gap-2">
                                     {[20, 30].map(m => (
                                         <button key={m} onClick={() => setDfwMins(m)} className={`btn-minimal flex-1 py-4 text-sm ${dfwMins === m ? 'selected' : ''}`}>{m}M</button>
@@ -503,13 +521,13 @@
                             
                             <div className="mt-4">
                                 {!dfwRolled ? (
-                                    <button onClick={rollDfw} className="w-full py-4 bg-gray-800 text-white font-semibold text-xs uppercase tracking-widest rounded-xl hover:bg-gray-700 transition-all shadow-lg border border-white/10">
+                                    <button onClick={rollDfw} className="w-full py-4 bg-gray-100 text-gray-900 font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-gray-200 transition-all border border-gray-300 shadow-sm">
                                         Roll Load Dice
                                     </button>
                                 ) : (
-                                    <div className="animate-scale-in p-4 bg-orange-900/20 border border-brand-orange/50 rounded-xl text-center shadow-neon-orange">
-                                        <div className="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">Load Acquired</div>
-                                        <div className="text-xl font-header font-bold text-white uppercase italic">{dfwEquip}</div>
+                                    <div className="animate-scale-in p-4 bg-orange-50 border border-brand-orange/30 rounded-xl text-center shadow-sm">
+                                        <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-1 font-semibold">Load Acquired</div>
+                                        <div className="text-xl font-header font-bold text-gray-900 uppercase italic">{dfwEquip}</div>
                                         <div className="text-xs text-brand-orange font-bold uppercase tracking-widest mt-1">{dfwIntensity}</div>
                                     </div>
                                 )}
@@ -517,11 +535,11 @@
                         </div>
                     )}
 
-                    <div className="mt-auto pt-4 border-t border-white/5">
+                    <div className="mt-auto pt-4">
                         <button 
                             disabled={(engineType === 'Q&D' && !qdRolled) || (engineType === 'DFW' && !dfwRolled)}
                             onClick={handleLaunch} 
-                            className="w-full py-4 bg-brand-orange text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-[#ff7700] hover:shadow-neon-orange disabled:opacity-30 disabled:scale-100 transition-all duration-300"
+                            className="w-full py-4 bg-brand-orange text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-brand-orange-light disabled:opacity-30 transition-all duration-300 shadow-float"
                         >
                             Execute Protocol
                         </button>
@@ -530,15 +548,16 @@
             );
 
             return (
-                <div className="h-full flex flex-col p-6 max-w-lg mx-auto w-full z-20 relative bg-black">
-                    <div className="flex justify-center mb-6">
-                        <img src="STAMPS NLCP Logo.png" alt="NLC Logo" className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.1)] object-cover" />
+                <div className="h-full flex flex-col p-6 max-w-lg mx-auto w-full z-20 relative">
+                    <div className="flex justify-center mb-6 pt-4">
+                        <img src="logo.png" alt="NLC Logo" className="w-32 h-32 rounded-full border-2 border-gray-200 shadow-sm object-cover" />
                     </div>
                     
                     {step === 1 && renderIsoStep("Split Squat", 'splitSquat', true, 1)}
-                    {step === 2 && renderIsoStep("Press Up", 'pressUp', false, 2)}
-                    {step === 3 && renderIsoStep("Ankle Hold", 'ankleHold', true, 3)}
-                    {step === 4 && renderEngineStep()}
+                    {step === 2 && renderIsoStep("Press Up", 'pressUp', true, 2)}
+                    {step === 3 && renderIsoStep("Ankle Hold (L)", 'ankleHoldL', true, 3)}
+                    {step === 4 && renderIsoStep("Ankle Hold (R)", 'ankleHoldR', true, 4)}
+                    {step === 5 && renderEngineStep()}
                     
                     <Footer />
                 </div>
@@ -547,13 +566,11 @@
 
         // --- ACTIVE SESSION ---
         const ActiveSession = ({ masterPlan, onFinish, onCancel }) => {
-            // Filter plan down to executable steps
             const execPlan = masterPlan.filter(p => !p.skipped);
             
             const [stageIndex, setStageIndex] = useState(0);
             const currentStage = execPlan[stageIndex];
             
-            // Sync overall plan status for the EQ Tracker
             const currentPlanStatus = masterPlan.map(block => {
                 const execIndex = execPlan.findIndex(ep => ep.id === block.id);
                 if (block.skipped) return { ...block, status: 'SKIPPED' };
@@ -562,18 +579,17 @@
             });
 
             const [time, setTime] = useState(0); 
-            const [globalStatus, setGlobalStatus] = useState(execPlan.length > 0 ? 'COUNTDOWN' : 'COMPLETE'); 
+            // READY_FOR_NEXT requires user manual start
+            const [globalStatus, setGlobalStatus] = useState(execPlan.length > 0 ? 'READY_FOR_NEXT' : 'COMPLETE'); 
             const [countdown, setCountdown] = useState(3);
             const [show5MinPrompt, setShow5MinPrompt] = useState(false);
             
-            // Sub-block states for specific Engines
             const [engineBlock, setEngineBlock] = useState('READY');
             const [qdSeries, setQdSeries] = useState(1);
             
             const intervalRef = useRef(null);
             const { isLocked, request: requestLock } = useWakeLock();
 
-            // Total target duration in seconds for current stage
             const getTargetSeconds = () => {
                 if (!currentStage) return 0;
                 if (currentStage.type === 'ISO') return currentStage.duration * 60;
@@ -591,7 +607,7 @@
 
             useEffect(() => {
                 requestLock();
-                if (execPlan.length === 0) onFinish(masterPlan.map(b => ({...b, completed: true}))); // Edge case all skipped
+                if (execPlan.length === 0) onFinish(masterPlan.map(b => ({...b, completed: true}))); 
             }, [requestLock, execPlan.length, masterPlan, onFinish]);
 
             // Timer Loop
@@ -624,7 +640,6 @@
             useEffect(() => {
                 if (globalStatus !== 'ACTIVE' || !currentStage) return;
 
-                // 5 Minute Warning for Long Engine Blocks
                 if (currentStage.type === 'ENGINE' && currentStage.name !== 'Q&D' && remaining === 300) {
                     SpeechEngine.speak("Focus on technique, keep your skills sharp.");
                     setShow5MinPrompt(true);
@@ -634,8 +649,7 @@
                 // Completion check
                 if (time >= targetSeconds && targetSeconds > 0) {
                     if (stageIndex < execPlan.length - 1) {
-                        setGlobalStatus('COUNTDOWN');
-                        setCountdown(3);
+                        setGlobalStatus('READY_FOR_NEXT');
                         setTime(0);
                         setStageIndex(i => i + 1);
                         SpeechEngine.speak("Block complete. Prepare for next.");
@@ -643,7 +657,6 @@
                         setGlobalStatus('COMPLETE');
                         SpeechEngine.speak("Workout complete. Outstanding effort.");
                         
-                        // Pass final status back
                         const finalPlan = masterPlan.map(block => {
                             if (block.skipped) return block;
                             return { ...block, completed: true };
@@ -653,7 +666,7 @@
                     return;
                 }
 
-                // Q&D Sub-logic
+                // Q&D Sub-logic with internal 3-2-1
                 if (currentStage.type === 'ENGINE' && currentStage.name === 'Q&D') {
                     const SERIES_DUR = currentStage.config.exercise === 'A' ? 180 : 240;
                     const timeInSeries = time % SERIES_DUR;
@@ -662,7 +675,13 @@
                     
                     if (time > 0 && timeInSeries === 0) setQdSeries(s => s + 1);
 
-                    if (triggers.includes(timeInSeries)) {
+                    const nextTrigger = triggers.find(t => t > timeInSeries);
+                    const timeToNext = nextTrigger ? nextTrigger - timeInSeries : SERIES_DUR - timeInSeries;
+
+                    if (timeToNext <= 3 && timeToNext > 0 && triggers.includes(nextTrigger)) {
+                        setEngineBlock(timeToNext.toString());
+                        SoundFX.play('BEEP');
+                    } else if (triggers.includes(timeInSeries)) {
                         setEngineBlock('WORK');
                         SoundFX.play('WORK');
                     } else if (timeInSeries >= deepRest) {
@@ -674,9 +693,6 @@
                             SoundFX.play('REST');
                         }
                     }
-                    
-                    const nextTrigger = triggers.find(t => t > timeInSeries) || SERIES_DUR;
-                    if (nextTrigger - timeInSeries <= 3 && nextTrigger - timeInSeries > 0) SoundFX.play('BEEP');
                 }
 
                 // AXE Sub-logic
@@ -689,95 +705,128 @@
                 }
             }, [time, globalStatus, currentStage, remaining, targetSeconds, stageIndex, execPlan.length, onFinish, engineBlock, masterPlan]);
 
-            if (!currentStage) return null; // Safe guard
+            if (!currentStage) return null;
 
             const formatTime = (s) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
             const progressPct = targetSeconds > 0 ? (time / targetSeconds) * 100 : 0;
 
+            const triggerManualStart = () => {
+                setCountdown(3);
+                setGlobalStatus('COUNTDOWN');
+            };
+
+            // Calculate Engine Checkpoints
+            let engineTotalRounds = 0;
+            let engineCurrentRound = 0;
+            if (currentStage.type === 'ENGINE') {
+                if (currentStage.name === 'Q&D') {
+                    engineTotalRounds = currentStage.config.seriesCount;
+                    engineCurrentRound = qdSeries - 1; // Completed series
+                } else if (currentStage.name === 'AXE' || currentStage.name === 'DFW') {
+                    engineTotalRounds = currentStage.config.duration;
+                    engineCurrentRound = Math.floor(time / 60); // Completed minutes
+                }
+            }
+
             return (
-                <div className="h-full flex flex-col items-center justify-between p-6 max-w-lg mx-auto w-full relative z-20 bg-black">
+                <div className="h-full flex flex-col items-center justify-between p-6 max-w-lg mx-auto w-full relative z-20">
                     
-                    {/* Header with Global Task Tracker */}
                     <div className="w-full mb-6">
                         <TaskEqualizer masterPlan={currentPlanStatus} currentBlockId={currentStage.id} />
                         
-                        <div className="flex justify-between items-end mt-6 border-b border-white/10 pb-4">
+                        <div className="flex justify-between items-end mt-4 border-b border-gray-200 pb-4">
                             <div className="flex items-center gap-3">
-                                <img src="STAMPS NLCP Logo.png" alt="Logo" className="w-12 h-12 rounded-full border border-white/10 object-cover" />
+                                <img src="logo.png" alt="Logo" className="w-12 h-12 rounded-full border border-gray-200 shadow-sm object-cover" />
                                 <div>
-                                    <h2 className="text-white font-header text-xl uppercase leading-none tracking-wide">{currentStage.name}</h2>
-                                    <p className="text-[10px] font-mono text-brand-orange uppercase tracking-widest mt-1">{currentStage.type} PHASE {stageIndex + 1}/{execPlan.length}</p>
+                                    <h2 className="text-gray-900 font-header text-xl uppercase leading-none font-bold">{currentStage.name}</h2>
+                                    <p className="text-[10px] font-mono text-brand-orange uppercase tracking-widest mt-1 font-semibold">{currentStage.type} PHASE {stageIndex + 1}/{execPlan.length}</p>
                                 </div>
                             </div>
-                            {currentStage.weighted && <span className="text-[10px] bg-white text-black px-2 py-1 rounded-sm font-bold uppercase tracking-widest">Weighted</span>}
+                            {currentStage.weighted && <span className="text-[10px] bg-gray-900 text-white px-2 py-1 rounded font-bold uppercase tracking-widest">Weighted</span>}
                         </div>
                     </div>
 
-                    {/* Main UI Area */}
-                    <div className="flex-1 flex flex-col items-center justify-center relative w-full mt-4">
+                    <div className="flex-1 flex flex-col items-center justify-center relative w-full mt-2">
                         
-                        {/* 5 Min Overlay */}
                         {show5MinPrompt && (
-                            <div className="absolute top-0 left-0 w-full z-50 animate-scale-in text-center p-4 bg-brand-orange/20 border border-brand-orange rounded-xl backdrop-blur-md shadow-neon-orange">
-                                <p className="text-white font-header text-xl uppercase italic tracking-wide">"Focus on technique.</p>
-                                <p className="text-white font-header text-xl uppercase italic tracking-wide">Keep your skills sharp."</p>
+                            <div className="absolute top-0 left-0 w-full z-50 animate-scale-in text-center p-4 bg-orange-50 border border-brand-orange rounded-xl shadow-md">
+                                <p className="text-gray-900 font-header text-xl uppercase italic font-bold">"Focus on technique.</p>
+                                <p className="text-gray-900 font-header text-xl uppercase italic font-bold">Keep your skills sharp."</p>
                             </div>
                         )}
 
-                        {globalStatus === 'COUNTDOWN' ? (
+                        {globalStatus === 'READY_FOR_NEXT' ? (
+                            <div className="animate-scale-in flex flex-col items-center text-center">
+                                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+                                    <svg className="w-10 h-10 text-brand-orange ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                                <h3 className="text-2xl font-header font-bold text-gray-900 uppercase mb-2">Block Ready</h3>
+                                <p className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-8">{currentStage.name}</p>
+                                <button 
+                                    onClick={triggerManualStart}
+                                    className="py-4 px-10 bg-brand-orange text-white font-bold text-sm uppercase tracking-widest rounded-xl hover:bg-brand-orange-light transition-all shadow-float"
+                                >
+                                    Start Countdown
+                                </button>
+                            </div>
+                        ) : globalStatus === 'COUNTDOWN' ? (
                             <div className="animate-scale-in flex flex-col items-center">
-                                <div className="text-9xl font-header font-bold text-white text-glow-white mb-4">{countdown}</div>
+                                <div className="text-9xl font-header font-bold text-gray-900 mb-4">{countdown}</div>
                                 <div className="text-brand-orange tracking-[0.3em] uppercase text-sm font-semibold">Prepare to execute</div>
                             </div>
                         ) : (
-                            <div className="relative flex items-center justify-center animate-fade-in w-72 h-72 sm:w-80 sm:h-80">
-                                {/* SVG Circular Progress */}
-                                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                                    <circle cx="50" cy="50" r="46" fill="none" stroke="#111" strokeWidth="2" />
-                                    <circle 
-                                        cx="50" cy="50" r="46" fill="none" 
-                                        stroke={currentStage.type === 'ENGINE' ? '#fff' : '#ff5500'} 
-                                        strokeWidth="4" 
-                                        strokeLinecap="round"
-                                        className="timer-ring drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
-                                        strokeDasharray="289"
-                                        strokeDashoffset={289 - (289 * progressPct) / 100}
-                                    />
-                                </svg>
-                                
-                                {/* Inner Text */}
-                                <div className="flex flex-col items-center justify-center z-10 text-center">
-                                    <div className="text-6xl sm:text-7xl font-mono font-bold text-white tracking-tighter" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                                        {formatTime(remaining)}
-                                    </div>
+                            <div className="relative flex flex-col items-center justify-center animate-fade-in w-full">
+                                <div className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center">
+                                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="46" fill="none" stroke="#e5e7eb" strokeWidth="2" />
+                                        <circle 
+                                            cx="50" cy="50" r="46" fill="none" 
+                                            stroke={currentStage.type === 'ENGINE' ? '#111827' : '#ff5500'} 
+                                            strokeWidth="4" 
+                                            strokeLinecap="round"
+                                            className="timer-ring drop-shadow-sm"
+                                            strokeDasharray="289"
+                                            strokeDashoffset={289 - (289 * progressPct) / 100}
+                                        />
+                                    </svg>
                                     
-                                    {currentStage.type === 'ENGINE' && (
-                                        <div className="mt-4">
-                                            <div className={`text-xl sm:text-2xl font-header uppercase italic font-bold tracking-widest ${engineBlock === 'WORK' ? 'text-brand-orange text-glow-orange' : 'text-gray-400'}`}>
-                                                {engineBlock}
-                                            </div>
-                                            {currentStage.name === 'Q&D' && <div className="text-xs text-gray-500 font-mono mt-1">SERIES {qdSeries} / {currentStage.config.seriesCount}</div>}
-                                            {currentStage.name === 'AXE' && <div className="text-xs text-gray-500 font-mono mt-1">EMOM / {currentStage.config.duration}M</div>}
+                                    <div className="flex flex-col items-center justify-center z-10 text-center">
+                                        <div className="text-6xl sm:text-7xl font-mono font-bold text-gray-900 tracking-tighter" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                                            {formatTime(remaining)}
                                         </div>
-                                    )}
+                                        
+                                        {currentStage.type === 'ENGINE' && (
+                                            <div className="mt-2">
+                                                <div className={`text-2xl font-header uppercase italic font-bold tracking-widest ${['WORK','1','2','3'].includes(engineBlock) ? 'text-brand-orange' : 'text-gray-400'}`}>
+                                                    {engineBlock}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+
+                                {currentStage.type === 'ENGINE' && engineTotalRounds > 0 && (
+                                    <div className="mt-8 w-full">
+                                        <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest text-center font-semibold">Round Checkpoints</div>
+                                        <EngineCheckpoints currentRound={engineCurrentRound} totalRounds={engineTotalRounds} />
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
 
-                    {/* Controls */}
                     <div className="w-full mt-8">
                         <div className="flex gap-4 mb-4">
                             <button 
                                 onClick={() => setGlobalStatus(globalStatus === 'ACTIVE' ? 'PAUSED' : 'ACTIVE')} 
-                                disabled={globalStatus === 'COUNTDOWN'}
-                                className={`flex-1 py-4 font-bold uppercase tracking-widest text-xs rounded-xl transition-all border ${globalStatus === 'ACTIVE' ? 'bg-black text-white border-white/20 hover:bg-white/10' : 'bg-white text-black border-white hover:bg-gray-200 shadow-neon-white'}`}
+                                disabled={globalStatus === 'COUNTDOWN' || globalStatus === 'READY_FOR_NEXT'}
+                                className={`flex-1 py-4 font-bold uppercase tracking-widest text-xs rounded-xl transition-all border ${globalStatus === 'ACTIVE' ? 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50 shadow-sm' : 'bg-gray-900 text-white border-gray-900 hover:bg-gray-800 shadow-float'}`}
                             >
                                 {globalStatus === 'ACTIVE' ? 'Pause' : 'Resume'}
                             </button>
                         </div>
                         <div className="text-center mb-6">
-                            <button onClick={onCancel} className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest hover:text-white px-6 py-2 transition-colors underline">
+                            <button onClick={onCancel} className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest hover:text-gray-600 px-6 py-2 transition-colors underline">
                                 Abort Workout
                             </button>
                         </div>
@@ -789,18 +838,18 @@
 
         // --- SUMMARY ---
         const Summary = ({ finalPlan, onReset }) => (
-            <div className="h-full flex flex-col p-6 max-w-lg mx-auto w-full justify-center text-center animate-fade-in z-20 relative bg-black">
+            <div className="h-full flex flex-col p-6 max-w-lg mx-auto w-full justify-center text-center animate-fade-in z-20 relative">
                 <div className="flex-1 flex flex-col justify-center">
-                    <img src="STAMPS NLCP Logo.png" alt="NLC Logo" className="w-28 h-28 mx-auto rounded-full ring-2 ring-white/10 mb-8 object-cover shadow-[0_0_30px_rgba(255,255,255,0.1)]" />
-                    <h1 className="text-4xl sm:text-5xl font-header font-bold text-white mb-2 uppercase tracking-wide text-glow-white">Mission<br/>Accomplished</h1>
-                    <p className="text-brand-orange font-mono text-xs uppercase tracking-widest mb-10">Parameters Executed</p>
+                    <img src="logo.png" alt="NLC Logo" className="w-32 h-32 mx-auto rounded-full border-2 border-gray-200 mb-8 object-cover shadow-sm" />
+                    <h1 className="text-4xl sm:text-5xl font-header font-bold text-gray-900 mb-2 uppercase tracking-wide">Mission<br/>Accomplished</h1>
+                    <p className="text-brand-orange font-mono text-xs uppercase tracking-widest mb-10 font-semibold">Parameters Executed</p>
                     
-                    <div className="mb-10 w-full max-w-xs mx-auto">
+                    <div className="mb-12 w-full max-w-xs mx-auto">
                         <TaskEqualizer masterPlan={finalPlan} currentBlockId={null} />
-                        <div className="text-[10px] text-gray-500 uppercase font-mono tracking-widest mt-4">Final Task Eq</div>
+                        <div className="text-[10px] text-gray-400 uppercase font-mono tracking-widest mt-4 font-semibold">Final Task Eq</div>
                     </div>
                     
-                    <button onClick={onReset} className="w-full max-w-xs mx-auto py-4 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-xl hover:scale-[1.02] transition-all shadow-lg">
+                    <button onClick={onReset} className="w-full max-w-xs mx-auto py-4 bg-gray-900 text-white font-bold uppercase text-xs tracking-widest rounded-xl hover:bg-gray-800 transition-all shadow-float">
                         Return to Gateway
                     </button>
                 </div>
@@ -826,7 +875,7 @@
             const handleCancel = () => setView('SETUP');
 
             return (
-                <div className="w-full h-full bg-black">
+                <div className="w-full h-full bg-gray-50">
                     {view === 'SETUP' && <SetupWizard onLaunch={handleLaunch} />}
                     {view === 'WORKOUT' && <ActiveSession masterPlan={masterPlan} onFinish={handleFinish} onCancel={handleCancel} />}
                     {view === 'SUMMARY' && <Summary finalPlan={masterPlan} onReset={handleCancel} />}
