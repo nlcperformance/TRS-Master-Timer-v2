@@ -300,7 +300,8 @@
             
             // ISO Configs
             const [isoConfigs, setIsoConfigs] = useState({
-                splitSquat: { duration: 2, weighted: false, skipped: false },
+                splitSquatL: { duration: 2, weighted: false, skipped: false },
+                splitSquatR: { duration: 2, weighted: false, skipped: false },
                 pressUp: { duration: 1, weighted: false, skipped: false },
                 ankleHoldL: { duration: 2, weighted: false, skipped: false },
                 ankleHoldR: { duration: 2, weighted: false, skipped: false },
@@ -364,10 +365,11 @@
                 SoundFX.init();
 
                 const masterPlan = [
-                    { id: 'iso_1', type: 'ISO', name: 'Split Squat', duration: isoConfigs.splitSquat.duration, weighted: isoConfigs.splitSquat.weighted, skipped: isoConfigs.splitSquat.skipped, completed: false },
-                    { id: 'iso_2', type: 'ISO', name: 'Press Up', duration: isoConfigs.pressUp.duration, weighted: false, skipped: isoConfigs.pressUp.skipped, completed: false },
-                    { id: 'iso_3', type: 'ISO', name: 'Ankle (L)', duration: isoConfigs.ankleHoldL.duration, weighted: isoConfigs.ankleHoldL.weighted, skipped: isoConfigs.ankleHoldL.skipped, completed: false },
-                    { id: 'iso_4', type: 'ISO', name: 'Ankle (R)', duration: isoConfigs.ankleHoldR.duration, weighted: isoConfigs.ankleHoldR.weighted, skipped: isoConfigs.ankleHoldR.skipped, completed: false },
+                    { id: 'iso_1', type: 'ISO', name: 'Split Squat (L)', duration: isoConfigs.splitSquatL.duration, weighted: isoConfigs.splitSquatL.weighted, skipped: isoConfigs.splitSquatL.skipped, completed: false },
+                    { id: 'iso_2', type: 'ISO', name: 'Split Squat (R)', duration: isoConfigs.splitSquatR.duration, weighted: isoConfigs.splitSquatR.weighted, skipped: isoConfigs.splitSquatR.skipped, completed: false },
+                    { id: 'iso_3', type: 'ISO', name: 'Press Up', duration: isoConfigs.pressUp.duration, weighted: false, skipped: isoConfigs.pressUp.skipped, completed: false },
+                    { id: 'iso_4', type: 'ISO', name: 'Ankle (L)', duration: isoConfigs.ankleHoldL.duration, weighted: isoConfigs.ankleHoldL.weighted, skipped: isoConfigs.ankleHoldL.skipped, completed: false },
+                    { id: 'iso_5', type: 'ISO', name: 'Ankle (R)', duration: isoConfigs.ankleHoldR.duration, weighted: isoConfigs.ankleHoldR.weighted, skipped: isoConfigs.ankleHoldR.skipped, completed: false },
                     { 
                         id: 'engine_1',
                         type: 'ENGINE', 
@@ -387,13 +389,13 @@
 
             const renderIsoStep = (title, key, allowWeighted, stepNum) => {
                 const config = isoConfigs[key];
-                const times = allowWeighted ? [1, 2, 3, 4, 5] : [1, 2, 3, 4, 5];
+                const times = [1, 2, 3, 4, 5];
                 const warning = config.duration === 1 && allowWeighted && !config.weighted && !config.skipped;
                 
                 return (
                     <div className="animate-fade-in flex flex-col h-full">
                         <div className="text-center mb-6">
-                            <h2 className="text-gray-400 font-mono text-[10px] tracking-[0.2em] uppercase mb-1 font-semibold">Gateway Block {stepNum}/4</h2>
+                            <h2 className="text-gray-400 font-mono text-[10px] tracking-[0.2em] uppercase mb-1 font-semibold">Gateway Block {stepNum}/5</h2>
                             <h1 className="text-3xl font-header font-bold text-gray-900 uppercase">{title}</h1>
                         </div>
 
@@ -553,11 +555,12 @@
                         <img src="logo.png" alt="NLC Logo" className="w-32 h-32 rounded-full border-2 border-gray-200 shadow-sm object-cover" />
                     </div>
                     
-                    {step === 1 && renderIsoStep("Split Squat", 'splitSquat', true, 1)}
-                    {step === 2 && renderIsoStep("Press Up", 'pressUp', true, 2)}
-                    {step === 3 && renderIsoStep("Ankle Hold (L)", 'ankleHoldL', true, 3)}
-                    {step === 4 && renderIsoStep("Ankle Hold (R)", 'ankleHoldR', true, 4)}
-                    {step === 5 && renderEngineStep()}
+                    {step === 1 && renderIsoStep("Split Squat (L)", 'splitSquatL', true, 1)}
+                    {step === 2 && renderIsoStep("Split Squat (R)", 'splitSquatR', true, 2)}
+                    {step === 3 && renderIsoStep("Press Up", 'pressUp', false, 3)}
+                    {step === 4 && renderIsoStep("Ankle Hold (L)", 'ankleHoldL', true, 4)}
+                    {step === 5 && renderIsoStep("Ankle Hold (R)", 'ankleHoldR', true, 5)}
+                    {step === 6 && renderEngineStep()}
                     
                     <Footer />
                 </div>
